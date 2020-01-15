@@ -1,0 +1,53 @@
+{% extends "question/base.html" %}
+{% load static %}
+{% block content %}
+    <link rel="stylesheet" href="{% static "question/login/my.css" %}">
+    <div class="container col-md-9" style="margin-top: 90px;">
+        <form class="form-signin" method="POST">
+            {% csrf_token %}
+            <div class="text-center mb-4">
+                <h1 class="h3 mb-3 font-weight-normal">Log in</h1>
+            </div>
+
+
+
+            {% for error in form.non_field_errors %}
+                <div class="alert alert-primary" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+
+
+
+            {% ifequal request.method "POST" %}
+                {% for error in form.errors %}
+                    {% ifnotequal error "__all__" %}
+                        <div class="alert alert-primary" role="alert">
+                            Некорректный {{ error }}
+                        </div>
+                    {% endifnotequal %}
+                {% endfor %}
+            {% endifequal %}
+
+
+
+
+            <div class="form-label-group">
+                Username
+                <input type="text" id="inputEmail" class="form-control" placeholder="Username" {{ form.username }}
+                <br>
+            </div>
+
+            <div class="form-label-group">
+                Password
+                <input type="password" id="inputPassword" class="form-control"
+                       placeholder="Password" {{ form.password }}
+                <br>
+            </div>
+
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+            <a href="{% url 'register_url' %}">create new account</a>
+        </form>
+    </div>
+
+{% endblock %}
